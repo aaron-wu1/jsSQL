@@ -1,5 +1,4 @@
 // eslint.config.js
-// eslint.config.js
 import prettier from "eslint-plugin-prettier";
 import prettierConfig from "eslint-config-prettier";
 import js from "@eslint/js";
