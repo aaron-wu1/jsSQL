@@ -2,6 +2,7 @@
   "name": "@aaron-wu1/jssql",
   "version": "1.0.0",
   "description": "JavaScript SQL Database",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -14,5 +15,8 @@
     "eslint-config-prettier": "9.1.0",
     "eslint-plugin-prettier": "5.2.1",
     "globals": "15.13.0"
+  },
+  "dependencies": {
+    "picocolors": "1.1.1"
   }
 }
