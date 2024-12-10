@@ -1,4 +1,4 @@
-import { insertInto } from "../lib/query.js";
+import { insertInto, select } from "../lib/query.js";
 import { createTable } from "../lib/schema.js";
 import { logger } from "../logger/logger.js";
 import pc from "picocolors";
@@ -46,10 +46,45 @@ function testInsertIntoV1() {
   }
 }
 
+function testSelectV1() {
+  const selectQuery1 = "SELECT id from users";
+  try {
+    select(selectQuery1);
+    logger("[TEST]", pc.magenta, console.info, "Select test passed");
+  } catch (error) {
+    select[selectQuery1];
+    logger("[TEST]", pc.red, console.error, "Select test failed", error);
+  }
+}
+
+function testSelectV2() {
+  const selectQuery2 = "SELECT id, name from users";
+  try {
+    select(selectQuery2);
+    logger("[TEST]", pc.magenta, console.info, "Select test passed");
+  } catch (error) {
+    select[selectQuery1];
+    logger("[TEST]", pc.red, console.error, "Select test failed", error);
+  }
+}
+
+function testSelectV3() {
+  const selectQuery3 = "SELECT * from users";
+  try {
+    select(selectQuery3);
+    logger("[TEST]", pc.magenta, console.info, "Select test passed");
+  } catch (error) {
+    select[selectQuery1];
+    logger("[TEST]", pc.red, console.error, "Select test failed", error);
+  }
+}
+
 function main() {
   testCreateTableV1();
   testCreateTableV2();
   testInsertIntoV1();
+  testSelectV1();
+  testSelectV2();
 }
 
 main();
