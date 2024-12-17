@@ -1,6 +1,7 @@
 import { insertInto, select } from "../lib/query.js";
 import { createTable } from "../lib/schema.js";
 import { logger } from "../logger/logger.js";
+import { createIndex, searchWithIndex } from "../lib/indexing.js";
 import pc from "picocolors";
 
 function testCreateTableV1() {
@@ -78,6 +79,35 @@ function testSelectV3() {
     logger("[TEST]", pc.red, console.error, "Select test failed", error);
   }
 }
+function testSelectV4() {
+  const selectQuery4 = "SELECT * FROM users WHERE id <3 ";
+  try {
+    select(selectQuery4);
+    logger("[TEST]", pc.magenta, console.info, "Select test passed");
+  } catch (error) {
+    select[selectQuery4];
+    logger("[TEST]", pc.red, console.error, "Select test failed", error);
+  }
+}
+
+function testCreateIndexV1() {
+  try {
+    createIndex("users", "name");
+    createIndex("users", "age");
+    logger("[TEST]", pc.magenta, console.info, "Create Index test passed\n");
+  } catch (error) {
+    logger("[TEST]", pc.magenta, console.error, "Create Index test failed\n", error);
+  }
+}
+
+function testSearchWithIndexV1() {
+  try {
+    searchWithIndex("users", "name", "John");
+    logger("[TEST]", pc.magenta, console.info, "Search Index test passed\n");
+  } catch (error) {
+    logger("[TEST]", pc.magenta, console.error, "Search Index test failed\n", error);
+  }
+}
 
 function main() {
   testCreateTableV1();
@@ -85,6 +115,10 @@ function main() {
   testInsertIntoV1();
   testSelectV1();
   testSelectV2();
+  testSelectV3();
+  // testSelectV4();
+  testCreateIndexV1();
+  testSearchWithIndexV1();
 }
 
 main();
