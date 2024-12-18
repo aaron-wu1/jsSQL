@@ -1,9 +1,19 @@
-import { writeJSON } from "./lib/storage.js";
-import { logDebug, logError, logInfo, logSuccess } from "./logger/logger.js";
+// index.js
 
-logError("This is my error statement");
-logDebug("This is my debug statement");
-logInfo("This is my info statement");
-logSuccess("This is my success statement");
+// Storage
+export { DATABASE_PATH, getTableFilePath, readJSON, writeJSON } from "./lib/storage.js";
 
-writeJSON("./database");
+// Schema
+export { createTable } from "./lib/schema.js";
+
+// Queries
+export { insertInto, select } from "./lib/query.js";
+
+// Indexing
+export { createIndex, searchWithIndex } from "./lib/indexing.js";
+
+// Backup
+export { backupDatabase, restoreDatabase } from "./lib/backup.js";
+
+// locks
+export { lockTable, performWithLock } from "./lib/locks.js";
