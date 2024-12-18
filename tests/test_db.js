@@ -4,6 +4,7 @@ import { logger } from "../logger/logger.js";
 import { createIndex, searchWithIndex } from "../lib/indexing.js";
 import pc from "picocolors";
 import { backupDatabase, restoreDatabase } from "../lib/backup.js";
+import { performWithLock } from "../lib/locks.js";
 
 function testCreateTableV1() {
   const createTableQuery = "CREATE TABLE users (id int, name txt, age int, student boolean)";
@@ -128,7 +129,40 @@ function testRestoreDatabaseV1() {
   }
 }
 
-function main() {
+async function testLocksV1() {
+  try {
+    const insertIntoQueries = [
+      "INSERT INTO users (id, name, age, student) VALUES (101, 'Eve', 23, true)",
+      "INSERT INTO users (id, name, age, student) VALUES (101, 'Josh', 29, false)",
+    ];
+    // NOTE: async functions always returns a promise
+    // returns performWithLock (a promise) when await is done
+    // without return => undefined => allSettled can't resolve
+    const performInsert = (query, taskName) =>
+      performWithLock("users", async () => {
+        logger("[TEST]", pc.magenta, console.info, `${taskName} started`);
+        insertInto(query);
+
+        // test delay
+        await new Promise((res) => setTimeout(res, 5000));
+        logger("[TEST]", pc.magenta, console.info, `${taskName} completed`);
+      });
+
+    const promises = [
+      performInsert(insertIntoQueries[0], "Task 1"),
+      performInsert(insertIntoQueries[1], "Task 2"),
+    ];
+
+    // check if all promises are resolved
+    await Promise.allSettled(promises);
+
+    logger("[TEST]", pc.magenta, console.info, "Locks test passed\n");
+  } catch (error) {
+    logger("[TEST]", pc.red, console.error, "Locks test failed\n", error);
+  }
+}
+
+async function main() {
   testCreateTableV1();
   testCreateTableV2();
   testInsertIntoV1();
@@ -140,6 +174,7 @@ function main() {
   testSearchWithIndexV1();
   testBackupDatabaseV1();
   testRestoreDatabaseV1();
+  await testLocksV1();
 }
 
 main();
