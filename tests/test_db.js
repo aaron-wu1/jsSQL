@@ -25,6 +25,15 @@ function testCreateTableV2() {
     logger("[TEST]", pc.red, console.error, "Table creation test failed\n", error);
   }
 }
+function testCreateTableV3() {
+  const createTableQuery = "CREATE TABLE products (id int, name txt, user_id int)";
+  try {
+    createTable(createTableQuery);
+    logger("[TEST]", pc.magenta, console.info, "Table creation test passed\n");
+  } catch (error) {
+    logger("[TEST]", pc.red, console.error, "Table creation test failed\n", error);
+  }
+}
 
 function testInsertIntoV1() {
   const insertIntoQuery1 =
@@ -43,6 +52,27 @@ function testInsertIntoV1() {
     insertInto(insertIntoQuery3);
     insertInto(insertIntoQuery4);
     insertInto(insertIntoQuery5);
+    logger("[TEST]", pc.magenta, console.info, "Insert Into test passed\n");
+  } catch (error) {
+    logger("[TEST]", pc.red, console.error, "Insert Into test failed\n", error);
+  }
+}
+
+function testInsertIntoV2() {
+  const insertIntoQuery1 = "INSERT INTO products (id, name, user_id) VALUES (1, 'pencil', 101)";
+  const insertIntoQuery2 =
+    "INSERT INTO products (id, name, user_id) VALUES (2, 'sparkling water', 102)";
+  const insertIntoQuery3 = "INSERT INTO products (id, name, user_id) VALUES (3, 'cereal', 102)";
+  const insertIntoQuery4 = "INSERT INTO products (id, name, user_id) VALUES (4, 'tablet', 101)";
+  const insertIntoQuery5 = "INSERT INTO products (id, name, user_id) VALUES (5, 'keyboard', 101)";
+  const insertIntoQuery6 = "INSERT INTO products (id, name, user_id) VALUES (6, 'unicorn', 200)";
+  try {
+    insertInto(insertIntoQuery1);
+    insertInto(insertIntoQuery2);
+    insertInto(insertIntoQuery3);
+    insertInto(insertIntoQuery4);
+    insertInto(insertIntoQuery5);
+    insertInto(insertIntoQuery6);
     logger("[TEST]", pc.magenta, console.info, "Insert Into test passed\n");
   } catch (error) {
     logger("[TEST]", pc.red, console.error, "Insert Into test failed\n", error);
@@ -82,7 +112,7 @@ function testSelectV3() {
   }
 }
 function testSelectV4() {
-  const selectQuery4 = "SELECT * FROM users WHERE id <3 ";
+  const selectQuery4 = "SELECT * FROM users WHERE age > 30";
   try {
     select(selectQuery4);
     logger("[TEST]", pc.magenta, console.info, "Select test passed");
@@ -132,8 +162,8 @@ function testRestoreDatabaseV1() {
 async function testLocksV1() {
   try {
     const insertIntoQueries = [
-      "INSERT INTO users (id, name, age, student) VALUES (101, 'Eve', 23, true)",
-      "INSERT INTO users (id, name, age, student) VALUES (101, 'Josh', 29, false)",
+      "INSERT INTO users (id, name, age, student) VALUES (106, 'Eve', 23, true)",
+      "INSERT INTO users (id, name, age, student) VALUES (107, 'Josh', 29, false)",
     ];
     // NOTE: async functions always returns a promise
     // returns performWithLock (a promise) when await is done
@@ -162,6 +192,59 @@ async function testLocksV1() {
   }
 }
 
+async function testJoinsV1() {
+  const selectQuery4 = "SELECT * FROM users INNER JOIN products ON users.id = products.user_id";
+  try {
+    select(selectQuery4);
+    logger("[TEST]", pc.magenta, console.info, "Inner join test passed");
+  } catch (error) {
+    select[selectQuery4];
+    logger("[TEST]", pc.red, console.error, "Inner join test failed", error);
+  }
+}
+async function testJoinsV2() {
+  const selectQuery4 = "SELECT * FROM products INNER JOIN users ON users.id = products.user_id";
+  try {
+    select(selectQuery4);
+    logger("[TEST]", pc.magenta, console.info, "Inner join (flipped cond) test passed");
+  } catch (error) {
+    select[selectQuery4];
+    logger("[TEST]", pc.red, console.error, "Inner join (flipped cond) test failed", error);
+  }
+}
+async function testJoinsV3() {
+  const selectQuery4 = "SELECT * FROM products LEFT JOIN users ON users.id = products.user_id";
+  try {
+    select(selectQuery4);
+    logger("[TEST]", pc.magenta, console.info, "Left join test passed");
+  } catch (error) {
+    select[selectQuery4];
+    logger("[TEST]", pc.red, console.error, "Left join test failed", error);
+  }
+}
+async function testJoinsV4() {
+  const selectQuery4 = "SELECT * FROM products RIGHT JOIN users ON users.id = products.user_id";
+  try {
+    select(selectQuery4);
+    logger("[TEST]", pc.magenta, console.info, "Right join test passed");
+  } catch (error) {
+    select[selectQuery4];
+    logger("[TEST]", pc.red, console.error, "Right join test failed", error);
+  }
+}
+
+async function testJoinsV5() {
+  const selectQuery4 =
+    "SELECT * FROM products FULL OUTER JOIN users ON users.id = products.user_id";
+  try {
+    select(selectQuery4);
+    logger("[TEST]", pc.magenta, console.info, "Full outer join test passed");
+  } catch (error) {
+    select[selectQuery4];
+    logger("[TEST]", pc.red, console.error, "Full outer join failed", error);
+  }
+}
+
 async function main() {
   testCreateTableV1();
   testCreateTableV2();
@@ -169,12 +252,19 @@ async function main() {
   testSelectV1();
   testSelectV2();
   testSelectV3();
-  // testSelectV4();
+  testSelectV4();
   testCreateIndexV1();
   testSearchWithIndexV1();
   testBackupDatabaseV1();
   testRestoreDatabaseV1();
   await testLocksV1();
+  testCreateTableV3();
+  testInsertIntoV2();
+  testJoinsV1();
+  testJoinsV2();
+  testJoinsV3();
+  testJoinsV4();
+  testJoinsV5();
 }
 
 main();
