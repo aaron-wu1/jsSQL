@@ -129,9 +129,9 @@ restoreDatabase('./backup');
 
 ## Setup
 
-Create a .env file at root
-Add SQL_DB_PATH="./database/" in .env file or set your own desired path
-Run `npm install`
+Create a `.env` file at root  
+Add `SQL_DB_PATH="./database/"` in .env file or set your own desired path  
+Run `npm install`  
 
 ## Tests
 
