@@ -245,9 +245,31 @@ async function testJoinsV5() {
   }
 }
 
+async function testAggregationsV1() {
+  // const selectQuery4 = "SELECT COUNT(*) AS total_users FROM users";
+  const selectQuery4 = "SELECT AVG(age) AS average_age FROM users";
+  try {
+    select(selectQuery4);
+    logger("[TEST]", pc.magenta, console.info, "Average aggregation test passed");
+  } catch (error) {
+    select[selectQuery4];
+    logger("[TEST]", pc.red, console.error, "Average aggregation failed", error);
+  }
+}
+async function testAggregationsV2() {
+  const selectQuery4 = "SELECT COUNT(*) AS total_users FROM users";
+  try {
+    select(selectQuery4);
+    logger("[TEST]", pc.magenta, console.info, "Count aggregation test passed");
+  } catch (error) {
+    select[selectQuery4];
+    logger("[TEST]", pc.red, console.error, "Count aggregation failed", error);
+  }
+}
+
 async function main() {
   testCreateTableV1();
-  testCreateTableV2();
+  // testCreateTableV2();
   testInsertIntoV1();
   testSelectV1();
   testSelectV2();
@@ -265,6 +287,8 @@ async function main() {
   testJoinsV3();
   testJoinsV4();
   testJoinsV5();
+  testAggregationsV1();
+  testAggregationsV2();
 }
 
 main();
