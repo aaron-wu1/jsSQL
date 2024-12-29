@@ -25,6 +25,8 @@ import {
   restoreDatabase,
 } from '@aaron-wu/jssql';
 
+// DDL
+
 // Create the 'users' table
 createTable('CREATE TABLE users (id int, name txt, age int, student boolean)');
 
@@ -68,6 +70,8 @@ insertInto(
   "INSERT INTO products (id, name, user_id, cost) VALUES (6, 'unicorn', 200, 1000)"
 );
 
+// SELECT
+
 // Select all products from the 'products' table
 select('SELECT * FROM products');
 
@@ -79,6 +83,8 @@ select('SELECT name FROM products');
 
 // Select products with cost greater than 30 from the 'products' table
 select('SELECT * FROM products WHERE cost > 30');
+
+// JOINS
 
 // Select all users and their products using INNER JOIN
 select(
@@ -98,11 +104,21 @@ select(
   'SELECT * FROM products FULL OUTER JOIN users ON users.id = products.user_id'
 );
 
+// INDEXING
+
 // Create an index on the 'name' column of the 'users' table
 createIndex('users', 'name');
 
 // Search for users with the name 'John' using the index
 searchWithIndex('users', 'name', 'John');
+
+// AGGREGATIONS
+
+// Select the average age of users from the 'users' table
+select('SELECT AVG(age) AS average_age FROM users');
+
+// Select the total number of users from the 'users' table
+select('SELECT COUNT(*) AS total_users FROM users');
 
 // Backup the database
 backupDatabase('backup');
