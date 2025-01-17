@@ -320,6 +320,8 @@ Example output:
 [Dec 28, 2024, 16:45:55.031] [SUCCESS] SELECT Query executed successfully
 [Dec 28, 2024, 16:45:55.031] [TEST] Count aggregation test passed
 ```
+## TODO
+- [ ] Add B+ tree indexing
 
 ## Acknowledgements
 
