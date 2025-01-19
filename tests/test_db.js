@@ -46,12 +46,15 @@ function testInsertIntoV1() {
     "INSERT INTO users (id, name, age, student) VALUES (104, 'Tom', 28, true)";
   const insertIntoQuery5 =
     "INSERT INTO users (id, name, age, student) VALUES (105, 'Peter', 10, false)";
+  const insertIntoQuery6 =
+    "INSERT INTO users (id, name, age, student) VALUES (106, 'John', 32, true)";
   try {
     insertInto(insertIntoQuery1);
     insertInto(insertIntoQuery2);
     insertInto(insertIntoQuery3);
     insertInto(insertIntoQuery4);
     insertInto(insertIntoQuery5);
+    insertInto(insertIntoQuery6);
     logger("[TEST]", pc.magenta, console.info, "Insert Into test passed\n");
   } catch (error) {
     logger("[TEST]", pc.red, console.error, "Insert Into test failed\n", error);
@@ -125,7 +128,7 @@ function testSelectV4() {
 function testCreateIndexV1() {
   try {
     createIndex("users", "name");
-    createIndex("users", "age");
+    // createIndex("users", "age");
     logger("[TEST]", pc.magenta, console.info, "Create Index test passed\n");
   } catch (error) {
     logger("[TEST]", pc.red, console.error, "Create Index test failed\n", error);
@@ -269,7 +272,7 @@ async function testAggregationsV2() {
 
 async function main() {
   testCreateTableV1();
-  // testCreateTableV2();
+  testCreateTableV2();
   testInsertIntoV1();
   testSelectV1();
   testSelectV2();

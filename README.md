@@ -321,7 +321,8 @@ Example output:
 [Dec 28, 2024, 16:45:55.031] [TEST] Count aggregation test passed
 ```
 ## TODO
-- [ ] Add B+ tree indexing
+- [x] Add B+ tree indexing
+- [ ] Add range queries when indexing
 
 ## Acknowledgements
 
